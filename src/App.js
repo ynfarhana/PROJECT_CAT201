@@ -1,5 +1,5 @@
 import './App.css';
-import Navbar from './Component/Assets/Navbar/Navbar';
+import Navbar from './Component/Navbar/Navbar';
 import {BrowserRouter,Routes,Route} from 'react-router-dom';
 
 import Shop from './Pages/Shop';
@@ -16,15 +16,15 @@ function App() {
       <Routes>
         <Route path ='/' element={<Shop/>}/>
 
-        <Route path ='/mens' element={<ShopCategory category="Men"/>}/>
-        <Route path ='/womans' element={<ShopCategory category="Woman" />}/>
+        {/*<Route path ='/mens' element={<ShopCategory category="Men"/>}/>
+        <Route path ='/womens' element={<ShopCategory category="Women" />}/>
         <Route path ='/kids' element={<ShopCategory category="Kids" />}/>
 
         <Route path ='/product' element={<Product/>}/>
         <Route path = '/product/:productId' element={<Product/>}/>
 
         <Route path = '/cart' element ={<Cart/>}/>
-        <Route path = '/login' element ={<LoginSignup/>}/>
+        <Route path = '/login' element ={<LoginSignup/>}/>*/}
       </Routes>
       </BrowserRouter>
     //</div>
