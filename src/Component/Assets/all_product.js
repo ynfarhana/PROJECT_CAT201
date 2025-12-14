@@ -172,4 +172,69 @@ export const products = [
         date_listed:Date.now(),
         condition: "Good"  
     },
+
+    {
+        id: "w002",
+        name: "Y2K Retro Sporty Polo Top",
+        description: "**Sporty Chic Steal!** Fitted red polo top with contrasting cream collar and sporty sleeve stripes. Perfect Y2K vintage look—wear it cropped or tucked into your favorite denim.",
+        price: 20.00,
+        image:[w_img2], 
+        category: "Women", 
+        subCategory: "Topwear",
+        sizes:["S (Fitted)"],
+        date_listed:Date.now(),
+        condition: "Good"  
+    },
+
+    {
+        id: "w003",
+        name: "Pin-Up Polka Dot Fitted Blouse",
+        description: "**Retro Flirt!** Charming white blouse with delicate black polka dots. Beautifully tailored and fitted at the waist for a classic rockabilly or pin-up silhouette. A perfect vintage staple for dress-up or office wear.",
+        price: 30.00,
+        image: [w_img3],
+        category: "Women", 
+        subCategory: "Topwear",
+        sizes: ["S (Fitted)"],
+        date_listed:Date.now(),
+        condition: "Good"  
+    },
+
+    {
+        id: "w004",
+        name: "Fitted Gingham Short-Sleeve Blouse",
+        description: "**Polished & Preppy!** Classic blue and white gingham blouse. Features a tailored, ultra-fitted cut that is perfect for professional wear or a clean, preppy casual look. A sharp, essential wardrobe foundation!",
+        price: 20.00,
+        image: [w_img4],
+        category: "Women", 
+        subCategory: "Button-Down",
+        sizes: ["S (Ultra Fitted)"],
+        date_listed:Date.now(),
+        condition: "Good"  
+    },
+
+    {
+        id: "w005",
+        name: "Bohemian Embroidered Flare Jeans",
+        description: "**Ultimate Statement Piece!** Gorgeous high-waisted flare jeans covered in detailed floral embroidery down the sides. Brings serious 70s bohemian vibes. A unique, high-quality piece that will sell fast!",
+        price: 45.99,
+        image: [w_img5],
+        category: "Women", 
+        subCategory: "Bottomwear",
+        sizes:["Waist 28 (High-Waist)"],
+        date_listed:Date.now(),
+        condition: "Excellent"  
+    },
+
+    {
+        id: "w006",
+        name: "Classic Medium-Wash Flare Jeans",
+        description: "**70s Staple!** Flattering high-waisted flare jeans in a versatile medium wash. The perfect foundation piece to achieve that effortlessly cool retro look. Durable denim in great condition!",
+        price: 39.99,
+        image: [w_img6],
+        category: "Women", 
+        subCategory: "Bottomwear",
+        sizes:["Waist 27 (High-Waist)"],
+        date_listed:Date.now(),
+        condition: "Excellent"  
+    },
 ]

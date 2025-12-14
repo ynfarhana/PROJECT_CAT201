@@ -1,0 +1,66 @@
+.item {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+/* Product Image */
+.item img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+}
+
+/* Product Name */
+.item p {
+    font-size: 15px;
+    font-weight: 500;
+    color: #222;
+    margin: 12px;
+    line-height: 1.4;
+    min-height: 42px;
+}
+
+/* Price + Button container */
+.item-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    margin-top: auto;
+}
+
+/* Price */
+.item-price span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+}
+
+/* Add to Cart button */
+.item-price button {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.item-price button:hover {
+    background-color: #333;
+}
+
+
