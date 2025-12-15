@@ -1,11 +1,17 @@
 import React from 'react';
 import './Hero.css';
 
-export default function Hero ({ image, title, subtitle }) {
+const Hero = ({ image, title, subtitle }) => {
     console.log("Image URL:", image);
     return (
-        <div className="hero"
-            style={{ backgroundImage: `url(${image})` }}>
+        <div>
+            <h1 className="hero-title">{title}</h1>
+            <p className="hero-subtitle">{subtitle}</p>
+            <div className="hero"
+                style={{ backgroundImage: `url(${image})` }}>
+            </div>
         </div>
     );
-}
+};
+
+export default Hero;

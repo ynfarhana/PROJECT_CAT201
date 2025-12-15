@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import {products} from '../Component/Assets/all_product.js'
 import './Product.css'
 
-const Product = () => {
+function Product () {
     const {productId} = useParams();
     const product = products.find((e) => e.id === productId);
     if(!product) {

@@ -15,6 +15,17 @@ import w_img3 from './w_img3.png';
 import w_img4 from './w_img4.png';
 import w_img5 from './w_img5.png';
 import w_img6 from './w_img6.png';
+import w_model1 from './w_model1.jpg';
+import w_model2 from './w_model2.jpg';
+import w_model3 from './w_model3.jpg';
+import w_model4 from './w_model4.jpg';
+
+export const ModelInspo = [
+    w_model1,
+    w_model2,
+    w_model3,
+    w_model4
+]
 
 export const products = [
     {

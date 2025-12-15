@@ -2,8 +2,7 @@
     display: flex;
     justify-content: space-around;
     padding: 16px;
-    box-shadow: 0 1px 3px -2px black;
-    background-color: #ffffff;
+    background-color: var(--secondary-bg-color);
 }
 
 .nav-logo{
@@ -15,7 +14,8 @@
 .nav-logo p{
     font-size: 38px;
     font-weight: bold;
-    color: #333333;
+    color: #372414;
+    text-shadow:#775a42 2px 2px 4px;
 }
 
 .nav-menu{
@@ -23,7 +23,7 @@
     align-items: center;
     gap: 50px;
     list-style: none;
-    color: #626262;
+    color: #0b0b0b;
     font-size: 20px;
     font-weight: 500;
 }
@@ -35,6 +35,11 @@
     cursor: pointer;
     justify-content: center;
     gap: 3px;
+}
+
+.nav-menu li a{
+    color: #372414;
+    text-decoration: none;
 }
 
 .nav-menu hr{
@@ -55,17 +60,17 @@
     width: 157px;
     height: 58px;
     outline: none;
-    border: 1px solid #7a7a7a;
+    border: 2px solid #877259;
     border-radius: 75px;
-    color: #515151;
+    color: #372414;
     font-size: 20px;
     font-weight: 500;
     cursor: pointer;
-    background-color: #ffffff;
+    background-color: #ecdfce;
 }
 
 .nav-login-cart button:active{
-    background-color: #f4c671;
+    background-color: #825a3c;
     color: #ffffff;
     border: none;
 }
