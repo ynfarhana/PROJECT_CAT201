@@ -19,13 +19,37 @@ import w_model1 from './w_model1.jpg';
 import w_model2 from './w_model2.jpg';
 import w_model3 from './w_model3.jpg';
 import w_model4 from './w_model4.jpg';
+import m_model1 from './m_model1.JPG';
+import m_model2 from './m_model2.JPG';
+import m_model3 from './m_model3.JPG';
+import m_model4 from './m_model4.JPG';
+import k_model1 from './k_model1.JPG';
+import k_model2 from './k_model2.JPG';
+import k_model3 from './k_model3.JPG';
+import k_model4 from './k_model4.JPG';
+import k_icon from './k_icon.JPG';
+import m_icon from './m_icon.JPG';
+import w_icon from './w_icon.JPG';
+
 
 export const ModelInspo = [
-    w_model1,
-    w_model2,
-    w_model3,
-    w_model4
-]
+    { id: 1, image:w_model1, category: "Women"},
+    { id: 2, image:w_model2, category: "Women"},
+    { id: 3, image:w_model3, category: "Women"},
+    { id: 4, image:w_model4, category: "Women"},
+    { id: 5, image:m_model1, category: "Men"},
+    { id: 6, image:m_model2, category: "Men"},
+    { id: 7, image:m_model3, category: "Men"},
+    { id: 8, image:m_model4, category: "Men"},
+    { id: 9, image:k_model1, category: "Kids"},
+    { id: 10, image:k_model2, category: "Kids"},
+    { id: 11, image:k_model3, category: "Kids"},
+    { id: 12, image:k_model4, category: "Kids"},
+    
+    w_icon,
+    m_icon,
+    k_icon
+];
 
 export const products = [
     {
