@@ -1,7 +1,8 @@
-import React from 'react' 
-import Hero from '../Component/Hero/Hero'
+import React from 'react' ;
+import Hero from '../Component/Hero/Hero';
 import Inspo from '../Component/Inspo/Inspo';
-const heroImage = "/hero-banner.svg"
+import Intro from '../Component/Intro/Intro';
+const heroImage = "/hero-banner.svg";
 
 function Shop () {
     return (
@@ -11,6 +12,7 @@ function Shop () {
             title= "Discover Your Style"
             subtitle= "Curated Vintage & Thrift for Every Style"
             />
+            <Intro/>
             <Inspo/>
         </div>
     );

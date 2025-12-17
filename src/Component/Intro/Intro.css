@@ -1,0 +1,51 @@
+.intro-section{
+    width: 100%;
+    padding: 80px 0;
+    background: var(--secondary-bg-color);
+    text-align: center;
+}
+
+.intro-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    gap: 50px;
+    padding: 0 20px;
+}
+
+.intro-item{
+    flex: 1;
+    text-align: left;
+}
+
+.intro-item h2{
+    color: #372414;
+    font-size: 50px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.intro-item p{
+    color: #555;
+    line-height: 1.6;
+    font-size: 18px;
+}
+
+.trust-points ul{
+    list-style: none;
+    padding: 0;
+}
+
+.trust-points li{
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #372414;
+    line-height: 1.4;
+}
+
+.trust-points li strong{
+    color: #986337;
+    font-weight: 600;
+}

@@ -13,7 +13,7 @@ function Navbar() {
     <div className="navbar">
         <div className="nav-logo">
             <BsShop size={50}/>
-            <p>SHOPPER</p>
+            <p>THRIFT STORE</p>
         </div>
 
         <ul className="nav-menu">
