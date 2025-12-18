@@ -108,5 +108,40 @@
     display: flex;
     gap: 30px;
     cursor: pointer;
+    
+}
 
+@media (max-width: 768px) {
+    .footer {
+        padding: 40px 20px; /* Reduce side padding for small screens */
+    }
+
+    .footer-top {
+        flex-direction: column; /* Stack the Brand and the Links vertically */
+        gap: 30px;
+    }
+
+    .footer-links {
+        flex-direction: column; /* Stack SHOP, CLEAROUT, SUPPORT vertically */
+        gap: 20px;
+        width: 100%;
+    }
+
+    .email-input-group {
+        width: 100%; /* Make signup box full width */
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-column h4{
+        font-size: 17px;
+    }
+
+    .footer-column li{
+        font-size: 14px;
+    }
+
+    .legal-links{
+        font-size: 13px;
+    }
 }

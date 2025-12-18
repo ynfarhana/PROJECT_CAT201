@@ -65,3 +65,28 @@
     color: #372414;
     line-height: 1.5;
 }
+
+@media (max-width: 768px) {
+    .intro-item h2{
+        font-size: 25px;
+        margin-bottom: 10px;
+    } 
+    
+    .intro-item p {
+        font-size: 15px;
+    }
+
+    .advantage-row img{
+        width: 90px;
+        height: 90px;
+    }
+
+    .advantage-row h3{
+        font-size: 15px;
+        margin-top: 10px;
+    }
+
+    .advantage-row p{
+        font-size: 15px;
+    }
+}

@@ -51,8 +51,15 @@
     transform: translateY(-3px);
 }
 
-/*@media (max-width: 600px) {
-    .brands-grid{
-        grid-template-columns: repeat(2,1fr);
+@media (max-width: 768px) {
+    .brands-grid {
+        /* Change from a wide row to a grid that fits the screen */
+        display: grid;
+        grid-template-columns: repeat(5, 1fr); /* 2 items per row on mobile */
+        gap: 15px;
     }
-}*/
+
+    .brands-header h2 {
+        font-size: 24px; /* Shrink title text so it doesn't wrap weirdly */
+    }
+}

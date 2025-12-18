@@ -125,3 +125,9 @@
     color: #ffffff;
     border: none;
 }
+
+@media (max-width: 768px) {
+    .inspo h1{
+        font-size: 24px;
+    }
+}
