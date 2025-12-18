@@ -1,0 +1,58 @@
+.brands-section{
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 40 20px;
+    text-align: center;
+}
+
+.brands-header hr{
+    width: 250px;
+    height: 6px;
+    border-radius: 10px;
+    background: #986337;
+    margin: 0 auto;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.brands-header h2{
+    font-size: 50px;
+    font-weight: 600;
+    color: #372414;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.brands-grid{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 15px;
+}
+
+.brands-box{
+    aspect-ratio: 1/1;
+    border: 1px solid #986337;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+    transition: all 0.2s ease-in-out;
+}
+
+.brands-box img{
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.brands-box:hover{
+    border-color: #986337;
+    transform: translateY(-3px);
+}
+
+/*@media (max-width: 600px) {
+    .brands-grid{
+        grid-template-columns: repeat(2,1fr);
+    }
+}*/

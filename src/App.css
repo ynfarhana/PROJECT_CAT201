@@ -57,3 +57,9 @@ body{
   margin: 0 auto;
   background-color: var(--secondary-bg-color);
 }
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}

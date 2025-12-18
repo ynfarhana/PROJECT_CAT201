@@ -1,0 +1,112 @@
+.footer{
+    background-color: #372414;
+    color: var(--secondary-bg-color);
+    padding: 70px 5% 40px;
+    box-sizing: border-box;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.footer-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-bottom: 70px;
+    width: 100%;
+    
+}
+
+.footer-brand h1{
+    font-size: 32px;
+    font-weight: 900;
+    margin-top: 10px;
+    padding-top: 0;
+
+}
+
+.signup-container{
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.signup-container h3{
+    font-weight: 800;
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+
+.email-input-group {
+    display: flex;
+    margin-top: 15px;
+    height: 45px; /* Give the whole group a set height */
+    max-width: 450px; /* Keeps the input from getting too long */
+}
+
+.email-input-group input{
+    flex: 2;
+    padding: 15px;
+    border: 1px solid #372414;
+    outline: none;
+}
+
+.email-input-group button{
+    flex: 1; /* Gives the button a consistent share of space */
+    min-width: 120px; /* Ensures the button never gets too small */
+    background-color: var(--secondary-bg-color); /* Light cream color from screenshot */
+    color: #372414;
+    border: none;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.2s;
+}
+
+.email-input-group button:hover {
+    background-color: var(--secondary-bg-color);
+}
+
+.footer-links{
+    display: flex;
+    gap: 80px;
+    margin-right: 40px;
+}
+
+.footer-column h4{
+    font-weight: 800;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.footer-column ul{
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column li{
+    margin-bottom: 12px;
+    font-weight: 700;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.footer-buttom{
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.legal-links{
+    padding-top: 25px;
+    display: flex;
+    gap: 30px;
+    cursor: pointer;
+
+}
