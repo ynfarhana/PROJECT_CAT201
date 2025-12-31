@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 // The URL that React will call: http://localhost:8080/api/admin/login
-@WebServlet("/api/admin/login")
+@WebServlet(name = "AdminLoginServlet", urlPatterns = {"/admin/login"}, loadOnStartup = 1)
 public class AdminLoginServlet extends HttpServlet {
 
     // 1. Handle CORS (Allow React to talk to Java)
@@ -20,17 +20,26 @@ public class AdminLoginServlet extends HttpServlet {
         resp.setStatus(HttpServletResponse.SC_OK);
     }
 
+    @Override
+    public void init() throws ServletException {
+        // This runs automatically when the server starts!
+        System.out.println("------------------------------------");
+        System.out.println("Checking Firebase Connection...");
+        FirebaseInit.initialize();
+        System.out.println("------------------------------------");
+    }
+    
     // 2. Handle the Login Request (POST)
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 1. Initialize DB
+        FirebaseInit.initialize();
         setAccessControlHeaders(response);
         
-        // Setup JSON response type
         response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
 
-        // READ the data sent by React
+        // 2. Read the JSON Body
         StringBuilder sb = new StringBuilder();
         BufferedReader reader = request.getReader();
         String line;
@@ -39,16 +48,38 @@ public class AdminLoginServlet extends HttpServlet {
         }
         String jsonReceived = sb.toString();
         
-        // DEBUG: Print what we received to the VS Code Terminal
-        System.out.println("React sent: " + jsonReceived);
+        // DEBUG: See what React sent
+        System.out.println("Received: " + jsonReceived);
 
-        // TODO: Later we will parse this JSON and check Firebase!
-        // For now, let's pretend the login is always successful to test connection.
-        
-        // SEND response back to React
-        String jsonResponse = "{\"status\":\"success\", \"message\":\"Login approved by Java Backend!\"}";
-        out.print(jsonResponse);
+        // 3. Extract Username/Password (The "Poor Man's JSON Parser")
+        // Assuming format: {"username":"iman", "password":"123"}
+        String username = extractValue(jsonReceived, "username");
+        String password = extractValue(jsonReceived, "password");
+
+        // 4. Check the Database!
+        boolean isValid = Admin.verifyLogin(username, password);
+
+        // 5. Send Reply
+        if (isValid) {
+            out.print("{\"status\":\"success\", \"message\":\"Login Approved\", \"role\":\"admin\"}");
+        } else {
+            // Send a 401 Unauthorized error code
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            out.print("{\"status\":\"fail\", \"message\":\"Invalid Credentials\"}");
+        }
         out.flush();
+    }
+
+    // Helper function to extract values from JSON string
+    private String extractValue(String json, String key) {
+        try {
+            String search = "\"" + key + "\":\"";
+            int start = json.indexOf(search) + search.length();
+            int end = json.indexOf("\"", start);
+            return json.substring(start, end);
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     // Helper method for CORS headers

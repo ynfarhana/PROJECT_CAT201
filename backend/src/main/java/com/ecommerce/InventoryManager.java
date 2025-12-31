@@ -1,35 +1,72 @@
 package com.ecommerce;
 
-import java.util.ArrayList;
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.Query;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.WriteResult;
+import com.google.firebase.cloud.FirestoreClient;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class InventoryManager {
-    // This list mimics a database for now
-    private List<String> productList; 
 
-    public InventoryManager() {
-        this.productList = new ArrayList<>();
-    }
+    // Feature: Add Product to Firebase
+    public String addProduct(String name, String category, double price, int stock) {
+        // 1. Get the connection to the database
+        Firestore db = FirestoreClient.getFirestore();
 
-    // Feature: Add Product
-    public void addProduct(String productName) {
-        // Later, we will save this to the SQL Database
-        productList.add(productName);
-        System.out.println("Product added: " + productName);
-    }
+        // 2. Create the product data
+        Map<String, Object> product = new HashMap<>();
+        product.put("name", name);
+        product.put("category", category);
+        product.put("price", price);
+        product.put("stock", stock);
 
-    // Feature: Remove Product
-    public boolean removeProduct(String productName) {
-        if (productList.contains(productName)) {
-            productList.remove(productName);
-            System.out.println("Product removed: " + productName);
-            return true;
+        // 3. Save it to a collection called "products"
+        // The system will generate a random unique ID for the product
+        ApiFuture<WriteResult> result = db.collection("products").document().set(product);
+
+        try {
+            // Wait for the server to say "Saved!"
+            return result.get().getUpdateTime().toString();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
         }
-        return false;
     }
 
-    // Feature: View All Products
-    public List<String> getAllProducts() {
-        return productList;
+        // Feature: Delete Product by Name
+    public boolean deleteProduct(String name) {
+        Firestore db = FirestoreClient.getFirestore();
+        try {
+            // 1. Find the product with this name
+            CollectionReference products = db.collection("products");
+            Query query = products.whereEqualTo("name", name);
+            ApiFuture<QuerySnapshot> querySnapshot = query.get();
+            List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+
+            if (documents.isEmpty()) {
+                System.out.println("Delete Failed: Product not found.");
+                return false;
+            }
+
+            // 2. Delete it (Delete the first match found)
+            for (DocumentSnapshot document : documents) {
+                document.getReference().delete();
+                System.out.println("Deleted product: " + name);
+            }
+            return true;
+
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

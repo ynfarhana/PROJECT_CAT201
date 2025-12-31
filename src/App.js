@@ -7,6 +7,7 @@ import ShopCategory from './Pages/ShopCategory';
 import Product from './Pages/Product';
 import Cart from './Pages/Cart'; 
 import LoginSignup from './Pages/LoginSignup';
+import AdminDashboard from './Pages/AdminDashboard';
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
 
         <Route path = '/cart' element ={<Cart/>}/>
         <Route path = '/login' element ={<LoginSignup/>}/>
+        <Route path='/login' element={<LoginSignup/>}/>
+        <Route path='/admin' element={<AdminDashboard/>}/>
+        
       </Routes>
       </BrowserRouter>
     //</div>

@@ -21,3 +21,12 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Java & Maven (CRITICAL: Prevents uploading compiled files)
+**/target/
+**/*.class
+
+# Security Keys
+**/serviceAccountKey.json
+.env
+*.log
