@@ -48,7 +48,8 @@ public class ProductServlet extends HttpServlet {
         String category = extractValue(jsonReceived, "category");
         String priceStr = extractValue(jsonReceived, "price"); // Comes as string
         String stockStr = extractValue(jsonReceived, "stock"); // Comes as string
-        
+        String image = extractValue(jsonReceived, "image");
+
         // Convert numbers
         double price = 0.0;
         int stock = 0;
@@ -61,7 +62,7 @@ public class ProductServlet extends HttpServlet {
 
         // SAVE to Firebase
         InventoryManager inv = new InventoryManager();
-        String timestamp = inv.addProduct(name, category, price, stock);
+        String timestamp = inv.addProduct(name, category, price, stock, image);
 
         // REPLY to React
         if (timestamp != null) {

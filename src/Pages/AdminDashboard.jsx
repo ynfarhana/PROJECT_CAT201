@@ -7,7 +7,7 @@ function AdminDashboard() {
     
     // State for Form
     const [productDetails, setProductDetails] = useState({
-        name: "", category: "Women", price: "", stock: ""
+        name: "", category: "Women", price: "", stock: "" , image: ""
     });
     
     // State for the List of Products
@@ -103,6 +103,16 @@ function AdminDashboard() {
                             <option value="Men">Men</option>
                             <option value="Kids">Kids</option>
                         </select>
+                    </div>
+                    <div className="input-group">
+                        <label>Image URL</label>
+                        <input 
+                            value={productDetails.image} 
+                            onChange={changeHandler} 
+                            type="text" 
+                            name="image" 
+                            placeholder="Paste link (e.g., https://imgur.com/...)" 
+                        />
                     </div>
                     <div className="row-group">
                         <div className="input-group">

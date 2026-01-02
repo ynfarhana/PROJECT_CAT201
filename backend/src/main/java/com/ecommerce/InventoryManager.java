@@ -2,6 +2,7 @@ package com.ecommerce;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
+import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;
@@ -19,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 public class InventoryManager {
 
     // Feature: Add Product to Firebase
-    public String addProduct(String name, String category, double price, int stock) {
+    public String addProduct(String name, String category, double price, int stock, String image) {
         // 1. Get the connection to the database
         Firestore db = FirestoreClient.getFirestore();
 
@@ -29,18 +30,19 @@ public class InventoryManager {
         product.put("category", category);
         product.put("price", price);
         product.put("stock", stock);
+        product.put("image", image);
+        product.put("created_at", System.currentTimeMillis());
 
+    try {
         // 3. Save it to a collection called "products"
         // The system will generate a random unique ID for the product
-        ApiFuture<WriteResult> result = db.collection("products").document().set(product);
-
-        try {
-            // Wait for the server to say "Saved!"
-            return result.get().getUpdateTime().toString();
-        } catch (InterruptedException | ExecutionException e) {
+            ApiFuture<DocumentReference> addedDocRef = db.collection("products").add(product);
+            return String.valueOf(System.currentTimeMillis());
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+        
     }
 
         // Feature: Delete Product by Name
