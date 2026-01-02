@@ -58,7 +58,7 @@ function Inspo(){
                             <img 
                                 src={item.image} 
                                 alt={`Outfit Inspiration ${item.id}`}
-                                style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+                                style={{maxWidth: '100%', height: 'auto'}} />
                         </div>
                     ))}
                 </div>
