@@ -1,0 +1,137 @@
+.admin-dashboard {
+    background-color: #fce3fe; /* Matching the pink theme */
+    min-height: 100vh;
+    padding: 30px;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 800px;
+    margin: 0 auto 30px auto;
+}
+
+.logout-btn {
+    background-color: #ff4141;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.admin-content {
+    display: flex;
+    justify-content: center;
+}
+
+.add-product-box {
+    background: white;
+    width: 100%;
+    max-width: 600px;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+}
+
+.input-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-group label {
+    font-weight: 600;
+    color: #555;
+}
+
+.input-group input, .selector {
+    padding: 15px;
+    border: 1px solid #c9c9c9;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #555;
+}
+
+.row-group {
+    display: flex;
+    gap: 20px;
+}
+
+.row-group .input-group {
+    flex: 1;
+}
+
+.add-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #6200ea; /* Purple for Admin action */
+    color: white;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.add-btn:hover {
+    background-color: #4b00b5;
+}
+
+/* Update Admin Content to allow side-by-side layout */
+.admin-content {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Space between Form and Table */
+    flex-wrap: wrap;
+}
+
+/* New Styles for the Table Box */
+.list-product-box {
+    background: white;
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+    height: fit-content;
+}
+
+.table-container {
+    max-height: 400px;
+    overflow-y: auto; /* Allow scrolling if list is long */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background-color: #fce3fe;
+    color: #555;
+}
+
+.delete-btn-small {
+    background-color: #ff4141;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.delete-btn-small:hover {
+    background-color: #d32f2f;
+}
