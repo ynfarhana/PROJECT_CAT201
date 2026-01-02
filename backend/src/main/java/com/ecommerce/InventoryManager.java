@@ -10,6 +10,7 @@ import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -68,5 +69,28 @@ public class InventoryManager {
             e.printStackTrace();
             return false;
         }
+    }
+
+    // Feature: Get All Products
+    public List<Map<String, Object>> getAllProducts() {
+        Firestore db = FirestoreClient.getFirestore();
+        List<Map<String, Object>> productList = new ArrayList<>();
+        
+        try {
+            // 1. Get all documents from "products" collection
+            ApiFuture<QuerySnapshot> future = db.collection("products").get();
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            
+            // 2. Convert them to a simple Map (Dictionary)
+            for (DocumentSnapshot document : documents) {
+                Map<String, Object> product = document.getData();
+                // Add the ID so we can track it later if needed
+                product.put("id", document.getId()); 
+                productList.add(product);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return productList;
     }
 }
