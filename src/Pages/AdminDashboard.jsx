@@ -7,7 +7,7 @@ function AdminDashboard() {
     
     // State for Form
     const [productDetails, setProductDetails] = useState({
-        name: "", category: "Women", price: "", stock: "" , image: ""
+        name: "", category: "Women", subCategory: "Top", price: "", stock: "" , image: ""
     });
     
     // State for the List of Products
@@ -102,6 +102,16 @@ function AdminDashboard() {
                             <option value="Women">Women</option>
                             <option value="Men">Men</option>
                             <option value="Kids">Kids</option>
+                        </select>
+                    </div>
+                    <div className="input-group">
+                        <label>Sub-Category</label>
+                        <select value={productDetails.subCategory} onChange={changeHandler} name="subCategory" className="selector">
+                            <option value="Top">Top (Shirt/Blouse)</option>
+                            <option value="Bottom">Bottom (Pants/Skirt)</option>
+                            <option value="Outerwear">Outerwear (Jacket/Coat)</option>
+                            <option value="Dress">Dress</option>
+                            <option value="Accessories">Accessories</option>
                         </select>
                     </div>
                     <div className="input-group">

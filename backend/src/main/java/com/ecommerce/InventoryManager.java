@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 public class InventoryManager {
 
     // Feature: Add Product to Firebase
-    public String addProduct(String name, String category, double price, int stock, String image) {
+    public String addProduct(String name, String category, String subCategory, double price, int stock, String image) {
         // 1. Get the connection to the database
         Firestore db = FirestoreClient.getFirestore();
 
@@ -28,6 +28,7 @@ public class InventoryManager {
         Map<String, Object> product = new HashMap<>();
         product.put("name", name);
         product.put("category", category);
+        product.put("subCategory", subCategory);
         product.put("price", price);
         product.put("stock", stock);
         product.put("image", image);
