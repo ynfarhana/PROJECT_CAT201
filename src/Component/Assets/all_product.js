@@ -30,6 +30,19 @@ import k_model4 from './k_model4.JPG';
 import k_icon from './k_icon.JPG';
 import m_icon from './m_icon.JPG';
 import w_icon from './w_icon.JPG';
+import affordable_p from './affordable_p.jpg';
+import quality_p from './quality_p.jpg';
+import unique_p from './unique_p.jpg';
+import shein from './shein.jpg';
+import padini from './padini.jpg';
+import zara from './zara.jpg';
+import mango from './mango.jpg';
+import tinybutton from './tinybutton.jpg';
+import hnm from './hnm.jpg';
+import cottonon from './cottonon.jpg';
+import levis from './levis.jpg';
+import uniqlo from './uniqlo.jpg';
+import bo from './bo.jpg';
 
 
 export const ModelInspo = [
@@ -48,7 +61,21 @@ export const ModelInspo = [
     
     w_icon,
     m_icon,
-    k_icon
+    k_icon,
+    unique_p,
+    quality_p,
+    affordable_p,
+    shein,
+    padini,
+    zara,
+    mango,
+    tinybutton,
+    hnm,
+    cottonon,
+    levis,
+    uniqlo,
+    bo
+
 ];
 
 export const products = [

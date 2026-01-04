@@ -1,0 +1,31 @@
+.shop-category {
+    width: 100%;
+}
+
+.shopcategory-indexSort {
+    margin: 20px auto;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.shopcategory-indexSort p span {
+    font-weight: 600;
+}
+
+/* The Grid Layout */
+.shopcategory-products {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr; /* 4 items per row */
+    gap: 30px;
+    margin: 20px auto;
+    width: 90%;
+}
+
+@media(max-width: 800px) {
+    .shopcategory-products {
+        grid-template-columns: 1fr 1fr; /* 2 items per row on phones */
+        gap: 20px;
+    }
+}

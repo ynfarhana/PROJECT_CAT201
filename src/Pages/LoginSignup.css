@@ -1,55 +1,67 @@
 .loginsignup {
   width: 100%;
-  height: 80vh;
-  background: #fce3fe; /* Light pink background */
-  padding-top: 100px;
+  height: 100vh; /* Full screen height */
+  background: #fce3fe;
+  padding-top: 50px; /* Reduced top padding for mobile */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: flex-start; /* Start from top */
 }
+
 .loginsignup-container {
-  width: 580px;
-  height: 400px;
+  width: 90%; /* FIX: Use percentage so it fits phones */
+  max-width: 580px; /* FIX: But don't let it get too big on laptop */
   background: white;
-  margin: auto;
-  padding: 40px 60px;
+  padding: 30px 20px; /* Smaller padding for mobile */
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+  margin-top: 20px;
 }
+
 .loginsignup-container h1 {
-  margin: 20px 0px;
+  margin: 10px 0px;
   text-align: center;
+  font-size: 24px; /* Slightly smaller font for mobile */
 }
+
 .loginsignup-fields {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-top: 30px;
+  gap: 15px;
+  margin-top: 20px;
 }
+
 .loginsignup-fields input {
   height: 50px;
   width: 100%;
-  padding-left: 20px;
+  padding-left: 15px;
   border: 1px solid #c9c9c9;
   outline: none;
   color: #5c5c5c;
-  font-size: 18px;
+  font-size: 16px;
+  box-sizing: border-box; /* Ensures padding doesn't break width */
 }
+
 .loginsignup-container button {
-  width: 100%; /* Full width button */
-  height: 50px; /* Taller button */
+  width: 100%;
+  height: 50px;
   color: white;
   background: #ff4141;
-  margin-top: 30px;
+  margin-top: 25px;
   border: none;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 500;
   cursor: pointer;
 }
+
 .loginsignup-login {
   margin-top: 20px;
   color: #5c5c5c;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   text-align: center;
 }
+
 .loginsignup-login span {
   color: #ff4141;
   font-weight: 600;
