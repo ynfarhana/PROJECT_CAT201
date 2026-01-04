@@ -1,13 +1,29 @@
-import React from "react"
-import Footer from '../Component/Footer/Footer';
+import { products } from "../Component/Assets/all_product";
+import Item from "../Component/Item/Item";
+import Footer from "../Component/Footer/Footer";
 
-function ShopCategory () {
-    return (
-        <div>
-            Shop Category Page
-            <Footer/>
-        </div>
-    )
-}
+const ShopCategory = (props) => {
+  const { category } = props;
 
-export default ShopCategory
+  return (
+    <div className="shop-category">
+      <div className="shopcategory-products">
+        {products
+          .filter((item) => item.category === category)
+          .map((item) => (
+            <Item
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              image={item.image[0]}
+              price={item.price}
+            />
+          ))}
+      </div>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default ShopCategory;

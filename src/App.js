@@ -19,7 +19,7 @@ function App() {
 
         <Route path ='/mens' element={<ShopCategory category="Men"/>}/>
         <Route path ='/womens' element={<ShopCategory category="Women" />}/>
-        <Route path ='/kids' element={<ShopCategory category="Kids" />}/>
+        <Route path="/kids" element={<ShopCategory category="kids" />} />
 
         {/*<Route path ='/product' element={<Product/>}/>*/}
         <Route path = '/product/:productId' element={<Product/>}/> {/* going to product details*/}

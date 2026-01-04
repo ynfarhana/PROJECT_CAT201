@@ -4,6 +4,7 @@ import Inspo from '../Component/Inspo/Inspo';
 import Intro from '../Component/Intro/Intro';
 import Brands from '../Component/Brands/Brands';
 import Footer from '../Component/Footer/Footer';
+
 const heroImage = "/hero-banner.svg";
 
 function Shop  ()  {
