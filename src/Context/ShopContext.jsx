@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+import { products as static_products } from "../Component/Assets/all_product";
 
 // Create the warehouse (Context)
 export const ShopContext = createContext(null);
@@ -14,7 +15,7 @@ const ShopContextProvider = (props) => {
         .then((response) => response.json())
         .then((data) => {
             console.log("Data loaded from Java:", data);
-            setAll_product(data);
+            setAll_product([...static_products, ...data]); // Merge static and dynamic products
         })
         .catch((error) => console.error("Failed to load products:", error));
     }, []);

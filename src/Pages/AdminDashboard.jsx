@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AdminDashboard.css';
+import { storage } from "../firebase"; // Import the file we just made
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 function AdminDashboard() {
     const navigate = useNavigate();
@@ -12,6 +14,9 @@ function AdminDashboard() {
     
     // State for the List of Products
     const [allProducts, setAllProducts] = useState([]);
+
+    // State for the Image File
+    const [imageUpload, setImageUpload] = useState(null); // Holds the file user picks
 
     // Security Check + Load Data
     useEffect(() => {
@@ -40,17 +45,30 @@ function AdminDashboard() {
     }
 
     const addProduct = async () => {
+        let finalImageUrl = productDetails.image; // Default to existing text if any
+
+        // If user picked a file, upload it first
+        if (imageUpload) {
+            finalImageUrl = await uploadImage();
+            if (!finalImageUrl) return; // Stop if upload failed
+        }
+
+        // Now send everything to Java (using the new URL)
+        let productToSend = { ...productDetails, image: finalImageUrl };
+
         try {
-            const response = await fetch('http://localhost:8080/api/admin/product', {
+           const response = await fetch('http://localhost:8080/api/admin/product', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(productDetails),
+                body: JSON.stringify(productToSend),
             });
             const data = await response.json();
+            
             if (data.status === 'success') {
                 alert("Added!");
-                setProductDetails({name: "", category: "Women", price: "", stock: ""}); // Clear form
-                fetchProducts(); // Refresh the table immediately!
+                setProductDetails({name: "", category: "Women", subCategory: "Top", price: "", stock: "", image: ""});
+                setImageUpload(null); // Clear the file
+                fetchProducts();
             } else {
                 alert("Failed: " + data.message);
             }
@@ -77,6 +95,28 @@ function AdminDashboard() {
             alert("Connection Failed");
         }
     }
+
+    // FUNCTION 4: Upload Product Image
+    const uploadImage = async () => {
+        if (!imageUpload) return null;
+
+        // Create a unique filename (e.g., "images/shirt_12345.jpg")
+        const imageRef = ref(storage, `images/${imageUpload.name + Date.now()}`);
+
+        try {
+            // 1. Upload the file
+            const snapshot = await uploadBytes(imageRef, imageUpload);
+            
+            // 2. Get the URL
+            const url = await getDownloadURL(snapshot.ref);
+            console.log("Uploaded Image URL:", url);
+            return url;
+        } catch (error) {
+            console.error("Error uploading image:", error);
+            alert("Image upload failed!");
+            return null;
+        }
+    };
 
     return (
         <div className="admin-dashboard">
@@ -115,18 +155,16 @@ function AdminDashboard() {
                         </select>
                     </div>
                     <div className="input-group">
-                        <label>Image URL</label>
-                        <input 
-                            value={productDetails.image} 
-                            onChange={changeHandler} 
-                            type="text" 
-                            name="image" 
-                            placeholder="Paste link (e.g., https://imgur.com/...)" 
-                        />
+                    <label>Product Image</label>
+                    {/* File Picker */}
+                    <input 
+                        type="file" 
+                        onChange={(e) => setImageUpload(e.target.files[0])} 
+                    />
                     </div>
                     <div className="row-group">
-                        <div className="input-group">
-                            <label>Price</label>
+                    <div className="input-group">
+                    <label>Price</label>
                             <input value={productDetails.price} onChange={changeHandler} type="number" name="price" placeholder="RM" />
                         </div>
                         <div className="input-group">

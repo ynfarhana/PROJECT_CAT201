@@ -119,14 +119,17 @@ public class ProductServlet extends HttpServlet {
         InventoryManager inv = new InventoryManager();
         List<Map<String, Object>> products = inv.getAllProducts();
 
-        // Manually build JSON Array: [{"name":"A",...}, {"name":"B",...}]
+        // Manually build JSON Array
         StringBuilder json = new StringBuilder("[");
         for (int i = 0; i < products.size(); i++) {
             Map<String, Object> p = products.get(i);
             
             json.append("{")
+                .append("\"id\":\"").append(p.get("id")).append("\",") // <--- ADDED THIS (Needed for clicking items)
                 .append("\"name\":\"").append(p.get("name")).append("\",")
                 .append("\"category\":\"").append(p.get("category")).append("\",")
+                .append("\"subCategory\":\"").append(p.get("subCategory")).append("\",") // <--- ADDED THIS (For filtering)
+                .append("\"image\":\"").append(p.get("image")).append("\",") // <--- ADDED THIS (The missing image!)
                 .append("\"price\":").append(p.get("price")).append(",")
                 .append("\"stock\":").append(p.get("stock"))
                 .append("}");
