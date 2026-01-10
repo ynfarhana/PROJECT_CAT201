@@ -11,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.google.gson.Gson; // We will use this later, but for now we do manual parsing
 
 @WebServlet("/admin/product")
 public class ProductServlet extends HttpServlet {
