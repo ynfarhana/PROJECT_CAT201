@@ -13,7 +13,6 @@ const ShopCategory = (props) => {
             
             {/* Sort/Banner Section */}
             <div className="shopcategory-indexSort">
-                <p><span>Showing Products</span></p>
             </div>
 
             <div className="shopcategory-products">

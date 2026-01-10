@@ -1,14 +1,20 @@
 .item {
-    width: 300px;
+    width: 100%; 
+    
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     padding: 15px;
-    background: #ffffff;
+    background: #ffffff; /* Fallback */
+    background-color: var(--content-bg-color); /* Your variable */
     border: 1px solid #e0e0e0;
     border-radius: 10px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     cursor: pointer;
-    background-color: var(--content-bg-color);
-
+    box-sizing: border-box; /* Ensures padding doesn't make it wider than 100% */
 }
 
 .item:hover {
@@ -16,51 +22,11 @@
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-
 .item img {
     width: 100%; 
+    /* FIX 3: Keep the height fixed for images so the grid aligns perfectly */
     height: 300px; 
-    object-fit: cover; 
+    object-fit: cover; /* This crops the image neatly without squishing it */
     border-radius: 8px; 
     margin-bottom: 10px;
-}
-
-.item p {
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: #333;
-    margin: 0 0 10px 0;
-    text-align: center;
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-}
-
-.item-price {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 5px;
-    margin-top: 5px;
-}
-
-.item-price span {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #cc0000; 
-}
-
-.item-price button {
-    background-color: var(--primary-color); 
-    color: var(--content-bg-color);
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.item-price button:hover {
-    background-color: #456f3c; 
 }
