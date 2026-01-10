@@ -26,7 +26,7 @@ public class FirebaseInit {
             }
 
             // Set up the options
-            FirebaseOptions options = new FirebaseOptions.Builder()
+            FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .build();
 

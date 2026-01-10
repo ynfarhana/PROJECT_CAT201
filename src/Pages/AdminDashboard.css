@@ -1,5 +1,5 @@
 .admin-dashboard {
-    background-color: #fce3fe; /* Matching the pink theme */
+    background-color: #f4e3fe; 
     min-height: 100vh;
     padding: 30px;
 }
@@ -68,7 +68,7 @@
 .add-btn {
     width: 100%;
     padding: 15px;
-    background-color: #6200ea; /* Purple for Admin action */
+    background-color: #6200ea; 
     color: white;
     border: none;
     font-size: 18px;
