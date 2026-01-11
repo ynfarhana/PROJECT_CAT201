@@ -11,7 +11,7 @@ const ShopContextProvider = (props) => {
 
     // When the website loads, go get the data from Java!
     useEffect(() => {
-        fetch('/api/admin/product') // Use your GET API
+        fetch('http://localhost:8080/api/admin/product') // Use your GET API
         .then((response) => response.json())
         .then((data) => {
             console.log("Data loaded from Java:", data);

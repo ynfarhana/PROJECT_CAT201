@@ -1,28 +1,21 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import { useParams } from 'react-router-dom'
-import {products} from '../Component/Assets/all_product.js'
-//import { ShopContext } from '../Context/ShopContext';
+import { ShopContext } from '../Context/ShopContext';
 import './Product.css'
 
 function Product () {
-<<<<<<< HEAD
     const {productId} = useParams();
-    const product = products.find((e) => e.id === productId);
-    const [isAdding] = useState(false);
-    //const { all_product } = useContext(ShopContext); 
+    const { all_product } = useContext(ShopContext); 
 
-=======
-    const { all_product } = useContext(ShopContext); // <--- 2. Get Live Data
-    const { productId } = useParams();
-    
-  
-    const product = all_product.find((e) => e.id == productId);
->>>>>>> b8be24113271fe405007ee7f425986b2b6ec0e54
+    const product = all_product.find((e) => e.id === productId);
+    const [isAdding, setIsAdding] = useState(false);
+
     if(!product) {
         return <div style={{padding: "100px"}}>Loading Product... (or Item Not Found)</div>;
     }
 
     const addToCart = async () => {
+        setIsAdding(true);
         try {
             // Use a relative path so the proxy in package.json forwards it to :8080
             const response = await fetch(`/api/cart?action=add&id=${product.id}&name=${encodeURIComponent(product.name)}&price=${product.price}`, {
@@ -38,6 +31,7 @@ function Product () {
             console.error("Error adding to cart:", error);
             alert("Failed to add item to cart.");
         }
+        setIsAdding(false);
     };
 
 

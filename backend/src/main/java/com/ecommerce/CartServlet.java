@@ -1,7 +1,7 @@
 package com.ecommerce;
-import com.ecommerce.Order;
-import com.ecommerce.OrderService;
-import com.ecommerce.CartItem;
+//import com.ecommerce.Order;
+//import com.ecommerce.OrderService;
+//import com.ecommerce.CartItem;
 
 import com.google.gson.Gson;
 import javax.servlet.ServletException;
@@ -10,7 +10,7 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+//import java.util.stream.Collectors;
 
 @WebServlet("/cart")
 public class CartServlet extends HttpServlet {
