@@ -16,6 +16,8 @@ public class Order {
     private List<CartItem> items;
     private double totalAmount;
     private Date orderDate;
+    private String status;
+    private String message;
 
     public Order(String orderId, String userEmail, String fullName, String phone, String shippingAddress, List<CartItem> items, double totalAmount) {
         this.orderId = orderId;
@@ -25,6 +27,8 @@ public class Order {
         this.shippingAddress = shippingAddress;
         this.items = items;
         this.totalAmount = totalAmount;
+        this.message = message;
+        this.status = "Received";
         this.orderDate = new Date();
     }
 
@@ -57,6 +61,9 @@ public class Order {
         return totalAmount;
     }
 
+    public String getStatus() { return status; }
+    public String getMessage() { return message; }
+
     /* Helper method to convert Order object to a Firebase-friendly Map*/
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
@@ -66,7 +73,8 @@ public class Order {
         map.put("phone", phone);               
         map.put("shippingAddress", shippingAddress);
         map.put("totalAmount", totalAmount);
-        map.put("status", "Pending");
+        map.put("status", status);
+        map.put("message", message);
         map.put("timestamp", System.currentTimeMillis());
         
         // Convert items to a list of maps

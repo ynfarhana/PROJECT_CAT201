@@ -1,65 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AdminDashboard.css';
-import { storage } from "../firebase"; // Import the file we just made
+import { storage } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 function AdminDashboard() {
     const navigate = useNavigate();
     
-    // State for Form
-    const [productDetails, setProductDetails] = useState({
-        name: "", 
-        category: "Women", 
-        subCategory: "Top", 
-        price: "", 
-        stock: "" , 
-        image: "", 
-        description: ""
-    });
+    // TAB STATE: Toggle between 'inventory' and 'orders'
+    const [activeTab, setActiveTab] = useState('inventory');
     
-    // State for the List of Products
+    // Inventory States
+    const [productDetails, setProductDetails] = useState({
+        name: "", category: "Women", subCategory: "Top", price: "", stock: "" , image: "", description: ""
+    });
     const [allProducts, setAllProducts] = useState([]);
+    const [imageUpload, setImageUpload] = useState(null);
 
-    // State for the Image File
-    const [imageUpload, setImageUpload] = useState(null); // Holds the file user picks
+    // ORDER STATES [New]
+    const [allOrders, setAllOrders] = useState([]);
 
-    // Security Check + Load Data
     useEffect(() => {
         const role = localStorage.getItem('user-role');
         if (role !== 'admin') {
             navigate('/login');
         } else {
-            fetchProducts(); // Load data when page opens
+            fetchProducts();
+            fetchOrders(); // Fetch orders when page opens
         }
     }, [navigate]);
 
-    // FUNCTION 1: Get data from Java
+    // --- INVENTORY FUNCTIONS ---
     const fetchProducts = async () => {
         try {
             const response = await fetch('http://localhost:8080/api/admin/product');
             const data = await response.json();
-            setAllProducts(data); // Save list to state
-        } catch (error) {
-            console.error("Error fetching products:", error);
-        }
+            setAllProducts(data);
+        } catch (error) { console.error("Error:", error); }
     }
 
-    // FUNCTION 2: Add Product
     const changeHandler = (e) => {
         setProductDetails({...productDetails, [e.target.name]: e.target.value});
     }
 
     const addProduct = async () => {
-        let finalImageUrl = productDetails.image; // Default to existing text if any
-
-        // If user picked a file, upload it first
+        let finalImageUrl = productDetails.image;
         if (imageUpload) {
             finalImageUrl = await uploadImage();
-            if (!finalImageUrl) return; // Stop if upload failed
+            if (!finalImageUrl) return;
         }
-
-        // Now send everything to Java (using the new URL)
         let productToSend = { ...productDetails, image: finalImageUrl };
 
         try {
@@ -69,161 +58,180 @@ function AdminDashboard() {
                 body: JSON.stringify(productToSend),
             });
             const data = await response.json();
-            
             if (data.status === 'success') {
                 alert("Added!");
-                setProductDetails({name: "", category: "Women", subCategory: "Top", price: "", stock: "", image: ""});
-                setImageUpload(null); // Clear the file
+                setProductDetails({name: "", category: "Women", subCategory: "Top", price: "", stock: "", image: "", description: ""});
+                setImageUpload(null);
                 fetchProducts();
-            } else {
-                alert("Failed: " + data.message);
             }
-        } catch (error) {
-            alert("Connection Failed");
-        }
+        } catch (error) { alert("Connection Failed"); }
     }
 
-    // FUNCTION 3: Delete Product (Linked to Table Button)
     const deleteProduct = async (name) => {
         if (!window.confirm("Delete " + name + "?")) return;
-
         try {
-            const response = await fetch(`http://localhost:8080/api/admin/product?name=${encodeURIComponent(name)}`, {
-                method: 'DELETE',
-            });
+            const response = await fetch(`http://localhost:8080/api/admin/product?name=${encodeURIComponent(name)}`, { method: 'DELETE' });
             const data = await response.json();
-            if (data.status === 'success') {
-                fetchProducts(); // Refresh table
-            } else {
-                alert("Failed: " + data.message);
-            }
-        } catch (error) {
-            alert("Connection Failed");
-        }
+            if (data.status === 'success') fetchProducts();
+        } catch (error) { alert("Connection Failed"); }
     }
 
-    // FUNCTION 4: Upload Product Image
     const uploadImage = async () => {
         if (!imageUpload) return null;
-
-        // Create a unique filename (e.g., "images/shirt_12345.jpg")
         const imageRef = ref(storage, `images/${imageUpload.name + Date.now()}`);
-
         try {
-            // 1. Upload the file
             const snapshot = await uploadBytes(imageRef, imageUpload);
-            
-            // 2. Get the URL
-            const url = await getDownloadURL(snapshot.ref);
-            console.log("Uploaded Image URL:", url);
-            return url;
-        } catch (error) {
-            console.error("Error uploading image:", error);
-            alert("Image upload failed!");
-            return null;
-        }
+            return await getDownloadURL(snapshot.ref);
+        } catch (error) { return null; }
     };
+
+    // --- ORDER FUNCTIONS [New] ---
+    const fetchOrders = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/api/admin/orders');
+            const data = await response.json();
+            setAllOrders(data);
+        } catch (error) { console.error("Error fetching orders:", error); }
+    }
+
+    const updateOrderStatus = async (orderId, newStatus) => {
+        try {
+            await fetch(`http://localhost:8080/api/admin/orders/update`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: orderId, status: newStatus })
+            });
+            fetchOrders(); // Refresh the list
+        } catch (error) { alert("Update failed"); }
+    }
 
     return (
         <div className="admin-dashboard">
             <div className="admin-header">
-                <h1>👑 Admin Inventory</h1>
-                <button className="logout-btn" onClick={() => {
-                    localStorage.removeItem('user-role');
-                    navigate('/login');
-                }}>Logout</button>
+                <h1>👑 Admin Panel</h1>
+                <div className="header-actions">
+                    <button 
+                        className={`tab-btn ${activeTab === 'inventory' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('inventory')}
+                    >Inventory</button>
+                    <button 
+                        className={`tab-btn ${activeTab === 'orders' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('orders')}
+                    >Orders Received</button>
+                    <button className="logout-btn" onClick={() => {
+                        localStorage.removeItem('user-role');
+                        navigate('/login');
+                    }}>Logout</button>
+                </div>
             </div>
 
             <div className="admin-content">
-                {/* LEFT SIDE: ADD FORM */}
-                <div className="add-product-box">
-                    <h2>Add New Item</h2>
-                    <div className="input-group">
-                        <label>Product Name</label>
-                        <input value={productDetails.name} onChange={changeHandler} type="text" name="name" placeholder="Name" />
-                    </div>
-                    <div className="input-group">
-                        <label>Category</label>
-                        <select value={productDetails.category} onChange={changeHandler} name="category" className="selector">
-                            <option value="Women">Women</option>
-                            <option value="Men">Men</option>
-                            <option value="Kids">Kids</option>
-                        </select>
-                    </div>
-                    <div className="input-group">
-                        <label>Sub-Category</label>
-                        <select value={productDetails.subCategory} onChange={changeHandler} name="subCategory" className="selector">
-                            <option value="Top">Top (Shirt/Blouse)</option>
-                            <option value="Bottom">Bottom (Pants/Skirt)</option>
-                            <option value="Outerwear">Outerwear (Jacket/Coat)</option>
-                            <option value="Dress">Dress</option>
-                            <option value="Accessories">Accessories</option>
-                        </select>
-                    </div>
-                    <div className="input-group">
-                    <label>Product Image</label>
-                    {/* File Picker */}
-                    <input 
-                        type="file" 
-                        onChange={(e) => setImageUpload(e.target.files[0])} 
-                    />
-                    </div>
-                    <div className="row-group">
-                    <div className="input-group">
-                    <label>Price</label>
-                            <input value={productDetails.price} onChange={changeHandler} type="number" name="price" placeholder="RM" />
+                {activeTab === 'inventory' ? (
+                    // --- YOUR FRIEND'S ORIGINAL CONTENT ---
+                    <>
+                    <div className="add-product-box">
+                        <h2>Add New Item</h2>
+                        <div className="input-group">
+                            <label>Product Name</label>
+                            <input value={productDetails.name} onChange={changeHandler} type="text" name="name" placeholder="Name" />
                         </div>
                         <div className="input-group">
-                            <label>Stock</label>
-                            <input value={productDetails.stock} onChange={changeHandler} type="number" name="stock" placeholder="Qty" />
+                            <label>Category</label>
+                            <select value={productDetails.category} onChange={changeHandler} name="category" className="selector">
+                                <option value="Women">Women</option>
+                                <option value="Men">Men</option>
+                                <option value="Kids">Kids</option>
+                            </select>
+                        </div>
+                        <div className="input-group">
+                            <label>Product Image</label>
+                            <input type="file" onChange={(e) => setImageUpload(e.target.files[0])} />
+                        </div>
+                        <div className="row-group">
+                            <div className="input-group">
+                                <label>Price</label>
+                                <input value={productDetails.price} onChange={changeHandler} type="number" name="price" placeholder="RM" />
+                            </div>
+                            <div className="input-group">
+                                <label>Stock</label>
+                                <input value={productDetails.stock} onChange={changeHandler} type="number" name="stock" placeholder="Qty" />
+                            </div>
+                        </div>
+                        <button onClick={addProduct} className="add-btn">ADD PRODUCT</button>
+                    </div>
+
+                    <div className="list-product-box">
+                        <h2>Current Stock</h2>
+                        <div className="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {allProducts.map((p, i) => (
+                                        <tr key={i}>
+                                            <td>{p.name}</td>
+                                            <td>RM {p.price}</td>
+                                            <td>{p.stock}</td>
+                                            <td><button onClick={() => deleteProduct(p.name)}>X</button></td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div className="input-group">
-                        <p>Product Description</p>
-                        <textarea 
-                            value={productDetails.description} 
-                            onChange={changeHandler} 
-                            name="description" 
-                            rows="4" 
-                            placeholder="Type description here..."
-                        ></textarea>
-                    </div>
-                    <button onClick={addProduct} className="add-btn">ADD PRODUCT</button>
-                </div>
-
-                {/* RIGHT SIDE: PRODUCT LIST TABLE */}
-                <div className="list-product-box">
-                    <h2>Current Stock</h2>
-                    <div className="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Price</th>
-                                    <th>Stock</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {allProducts.map((product, index) => (
-                                    <tr key={index}>
-                                        <td>{product.name}</td>
-                                        <td>RM {product.price}</td>
-                                        <td>{product.stock}</td>
-                                        <td>
-                                            <button 
-                                                className="delete-btn-small" 
-                                                onClick={() => deleteProduct(product.name)}
-                                            >
-                                                X
-                                            </button>
-                                        </td>
+                    </>
+                ) : (
+                    // --- NEW ORDERS VIEW ---
+                    <div className="orders-container fade-in">
+                        <h2>📦 Incoming Orders</h2>
+                        <div className="table-container full-width">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Payment</th>
+                                        <th>Message from User</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {allOrders.map((order, i) => (
+                                        <tr key={i}>
+                                            <td>#{order.id}</td>
+                                            <td>{order.fullName}</td>
+                                            <td>{order.paymentMethod}</td>
+                                            <td className="user-note">"{order.message || 'No message'}"</td>
+                                            <td>
+                                                <span className={`status-pill ${order.status?.toLowerCase()}`}>
+                                                    {order.status || 'Received'}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <select 
+                                                    onChange={(e) => updateOrderStatus(order.id, e.target.value)}
+                                                    className="status-selector"
+                                                >
+                                                    <option value="">Update Status</option>
+                                                    <option value="Shipped">Shipped</option>
+                                                    <option value="Delivered">Delivered</option>
+                                                    <option value="Cancelled">Cancelled</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </div>
     )

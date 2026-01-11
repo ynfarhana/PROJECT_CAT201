@@ -135,3 +135,52 @@ th {
 .delete-btn-small:hover {
     background-color: #d32f2f;
 }
+
+.header-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.tab-btn {
+    background: #EFEBE0;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #372414;
+}
+
+.tab-btn.active {
+    background: #372414;
+    color: #fff;
+}
+
+/* User Note Styling */
+.user-note {
+    font-style: italic;
+    color: #555;
+    max-width: 200px;
+    font-size: 0.9rem;
+}
+
+/* Status Pills */
+.status-pill {
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.status-pill.received { background: #d1ecf1; color: #0c5460; }
+.status-pill.shipped { background: #fff3cd; color: #856404; }
+.status-pill.delivered { background: #d4edda; color: #155724; }
+
+.status-selector {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.full-width { width: 100% !important; }

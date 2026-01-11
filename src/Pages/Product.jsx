@@ -5,19 +5,12 @@ import {products} from '../Component/Assets/all_product.js'
 import './Product.css'
 
 function Product () {
-<<<<<<< HEAD
+
     const {productId} = useParams();
     const product = products.find((e) => e.id === productId);
     const [isAdding] = useState(false);
     //const { all_product } = useContext(ShopContext); 
 
-=======
-    const { all_product } = useContext(ShopContext); // <--- 2. Get Live Data
-    const { productId } = useParams();
-    
-  
-    const product = all_product.find((e) => e.id == productId);
->>>>>>> b8be24113271fe405007ee7f425986b2b6ec0e54
     if(!product) {
         return <div style={{padding: "100px"}}>Loading Product... (or Item Not Found)</div>;
     }

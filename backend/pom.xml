@@ -40,7 +40,7 @@
                         <tempDirectory>${java.io.tmpdir}/jetty-backend</tempDirectory>
                     </webApp>
                     <httpConnector>
-                        <port>8081</port>
+                        <port>8080</port>
                     </httpConnector>
                 </configuration>
             </plugin>
