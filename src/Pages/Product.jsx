@@ -17,7 +17,6 @@ function Product () {
     const addToCart = async () => {
         setIsAdding(true);
         try {
-            // Use a relative path so the proxy in package.json forwards it to :8080
             const response = await fetch(`/api/cart?action=add&id=${product.id}&name=${encodeURIComponent(product.name)}&price=${product.price}`, {
                 method: 'POST',
             });
@@ -39,7 +38,6 @@ function Product () {
         <div className="product-page">
             <div className="product-details-container">
                 <div className="product-images">
-                    {/* 4. FIX: Use the image string directly. No [0] */}
                     <img src={product.image} alt={product.name} className="main-image" />
                 </div>
                 <div className="product-info">
@@ -47,7 +45,6 @@ function Product () {
                     <p className="price">RM {Number(product.price).toFixed(2)}</p>
                     
                     <h3>Description:</h3>
-                    {/* fallback text if description is empty */}
                     <p>{product.description ? product.description : "No description available."}</p>
 
                     <div className="details">
@@ -55,7 +52,6 @@ function Product () {
                         <p><strong>Sub-Category:</strong> {product.subCategory}</p>
                         
                         <p><strong>Sizes Available:</strong> 
-                           {/* Handle if sizes is missing or an array */}
                            {product.sizes ? product.sizes : "Free Size"}
                         </p>
                         

@@ -1,5 +1,6 @@
+/* Admin Dashboard styles (merged) */
 .admin-dashboard {
-    background-color: #f4e3fe; 
+    background-color: #f4e3fe;
     min-height: 100vh;
     padding: 30px;
 }
@@ -68,7 +69,7 @@
 .add-btn {
     width: 100%;
     padding: 15px;
-    background-color: #6200ea; 
+    background-color: #6200ea;
     color: white;
     border: none;
     font-size: 18px;
@@ -85,7 +86,7 @@
 .admin-content {
     display: flex;
     justify-content: center;
-    gap: 30px; /* Space between Form and Table */
+    gap: 30px;
     flex-wrap: wrap;
 }
 
@@ -102,7 +103,7 @@
 
 .table-container {
     max-height: 400px;
-    overflow-y: auto; /* Allow scrolling if list is long */
+    overflow-y: auto;
 }
 
 table {
@@ -144,6 +145,7 @@ th {
     margin-bottom: 30px;
 }
 
+/* base tab styling */
 .tab-btn {
     padding: 10px 30px;
     border: none;
@@ -155,12 +157,26 @@ th {
     transition: 0.3s;
 }
 
+/* override / alternative styling merged in */
 .tab-btn.active {
-    background-color: #ff4141; /* Red active state */
+    background-color: #ff4141;
     color: white;
 }
 
-/* --- ORDER TABLE --- */
+/* header-actions (kept from other change) */
+.header-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* alternate tab visual (kept for compatibility) */
+.tab-btn.alt {
+    background: #EFEBE0;
+    color: #372414;
+}
+
+/* --- Order / Status styles --- */
 .orders-box {
     width: 90%;
     margin: 0 auto;
@@ -170,7 +186,8 @@ th {
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-.status-select {
+.status-select,
+.status-selector {
     padding: 5px;
     border-radius: 5px;
     border: 1px solid #ccc;
@@ -179,3 +196,18 @@ th {
 .status-pending { color: orange; font-weight: bold; }
 .status-shipped { color: blue; font-weight: bold; }
 .status-delivered { color: green; font-weight: bold; }
+
+/* status-pill from other branch */
+.status-pill {
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.status-pill.received { background: #d1ecf1; color: #0c5460; }
+.status-pill.shipped { background: #fff3cd; color: #856404; }
+.status-pill.delivered { background: #d4edda; color: #155724; }
+
+.full-width { width: 100% !important; }
+.user-note { font-style: italic; color: #555; max-width: 200px; font-size: 0.9rem; }

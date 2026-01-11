@@ -83,4 +83,10 @@ public class OrderService {
             throw new Exception("Firebase Cart Sync Error: " + e.getMessage());
         }
     }
+
+    public void updateOrderStatusInFirebase(String orderId, String newStatus) throws Exception {
+        Firestore db = FirestoreClient.getFirestore();
+        db.collection("orders").document(orderId).update("status", newStatus).get();
+        System.out.println("✅ Order " + orderId + " updated to: " + newStatus);
+    }
 }

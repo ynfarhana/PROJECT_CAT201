@@ -1,33 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AdminDashboard.css';
-import { storage } from "../firebase"; 
+import { storage } from "../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 function AdminDashboard() {
     const navigate = useNavigate();
-    
-    // --- STATE MANAGEMENT ---
-    const [activeTab, setActiveTab] = useState("inventory"); // "inventory" or "orders"
+    const [activeTab, setActiveTab] = useState('inventory');
+
     const [productDetails, setProductDetails] = useState({
         name: "", category: "Women", subCategory: "Top", price: "", stock: "" , image: "", description: ""
     });
     const [allProducts, setAllProducts] = useState([]);
-    const [allOrders, setAllOrders] = useState([]); // <--- NEW: Store Orders
-    const [imageUpload, setImageUpload] = useState(null); 
+    const [imageUpload, setImageUpload] = useState(null);
+    const [allOrders, setAllOrders] = useState([]);
 
-    // --- INITIAL LOAD ---
     useEffect(() => {
         const role = localStorage.getItem('user-role');
         if (role !== 'admin') {
             navigate('/login');
         } else {
             fetchProducts();
-            fetchOrders(); // <--- Load orders too
+            fetchOrders();
         }
     }, [navigate]);
 
-    // === INVENTORY FUNCTIONS ===
+    // 📦 Inventory
     const fetchProducts = async () => {
         try {
             const response = await fetch('http://localhost:8080/api/admin/product');
@@ -36,11 +34,11 @@ function AdminDashboard() {
         } catch (error) {
             console.error("Error fetching products:", error);
         }
-    }
+    };
 
     const changeHandler = (e) => {
         setProductDetails({...productDetails, [e.target.name]: e.target.value});
-    }
+    };
 
     const addProduct = async () => {
         let finalImageUrl = productDetails.image;
@@ -51,16 +49,16 @@ function AdminDashboard() {
         let productToSend = { ...productDetails, image: finalImageUrl };
 
         try {
-           const response = await fetch('http://localhost:8080/api/admin/product', {
+            const response = await fetch('http://localhost:8080/api/admin/product', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(productToSend),
             });
             const data = await response.json();
             if (data.status === 'success') {
-                alert("Added!");
+                alert("Product Added Successfully!");
                 setProductDetails({name: "", category: "Women", subCategory: "Top", price: "", stock: "", image: "", description: ""});
-                setImageUpload(null); 
+                setImageUpload(null);
                 fetchProducts();
             } else {
                 alert("Failed: " + data.message);
@@ -68,17 +66,17 @@ function AdminDashboard() {
         } catch (error) {
             alert("Connection Failed");
         }
-    }
+    };
 
     const deleteProduct = async (name) => {
         if (!window.confirm("Delete " + name + "?")) return;
         try {
             await fetch(`http://localhost:8080/api/admin/product?name=${encodeURIComponent(name)}`, { method: 'DELETE' });
-            fetchProducts(); 
+            fetchProducts();
         } catch (error) {
             alert("Connection Failed");
         }
-    }
+    };
 
     const uploadImage = async () => {
         if (!imageUpload) return null;
@@ -93,34 +91,34 @@ function AdminDashboard() {
         }
     };
 
-    // === NEW: ORDER FUNCTIONS ===
+    // 🚚 Orders
     const fetchOrders = async () => {
         try {
-            const response = await fetch('/api/admin/orders');
+            const response = await fetch('http://localhost:8080/api/admin/orders');
             const data = await response.json();
             setAllOrders(data);
         } catch (error) {
             console.error("Error fetching orders:", error);
         }
-    }
+    };
 
     const updateOrderStatus = async (orderId, newStatus) => {
+        if(!newStatus) return;
         try {
-            // Call the Servlet to update Firebase
-            const response = await fetch(`/api/admin/orders?orderId=${orderId}&status=${newStatus}`, {
+            const response = await fetch(`http://localhost:8080/api/admin/orders?orderId=${orderId}&status=${newStatus}`, {
                 method: 'POST'
             });
             const data = await response.json();
             if (data.success) {
-                alert("Order Status Updated to: " + newStatus);
-                fetchOrders(); // Refresh table
+                alert(`Order #${orderId} updated to ${newStatus}`);
+                fetchOrders();
             } else {
                 alert("Failed to update status");
             }
         } catch (error) {
             console.error("Update failed", error);
         }
-    }
+    };
 
     return (
         <div className="admin-dashboard">
@@ -132,23 +130,21 @@ function AdminDashboard() {
                 }}>Logout</button>
             </div>
 
-            {/* --- TAB NAVIGATION --- */}
             <div className="admin-tabs">
-                <button 
-                    className={`tab-btn ${activeTab === 'inventory' ? 'active' : ''}`} 
+                <button
+                    className={`tab-btn ${activeTab === 'inventory' ? 'active' : ''}`}
                     onClick={() => setActiveTab('inventory')}
                 >
-                    📦 Inventory Management
+                    📦 Inventory
                 </button>
-                <button 
-                    className={`tab-btn ${activeTab === 'orders' ? 'active' : ''}`} 
+                <button
+                    className={`tab-btn ${activeTab === 'orders' ? 'active' : ''}`}
                     onClick={() => setActiveTab('orders')}
                 >
                     🚚 Customer Orders
                 </button>
             </div>
 
-            {/* --- TAB 1: INVENTORY (Your Old Layout) --- */}
             {activeTab === 'inventory' && (
                 <div className="admin-content">
                     <div className="add-product-box">
@@ -176,7 +172,7 @@ function AdminDashboard() {
                             </select>
                         </div>
                         <div className="input-group">
-                            <label>Product Image</label>
+                            <label>Image</label>
                             <input type="file" onChange={(e) => setImageUpload(e.target.files[0])} />
                         </div>
                         <div className="row-group">
@@ -190,7 +186,7 @@ function AdminDashboard() {
                             </div>
                         </div>
                         <div className="input-group">
-                            <p>Description</p>
+                            <label>Description</label>
                             <textarea value={productDetails.description} onChange={changeHandler} name="description" rows="3"></textarea>
                         </div>
                         <button onClick={addProduct} className="add-btn">ADD PRODUCT</button>
@@ -224,7 +220,6 @@ function AdminDashboard() {
                 </div>
             )}
 
-            {/* --- TAB 2: ORDERS (New Layout) --- */}
             {activeTab === 'orders' && (
                 <div className="orders-box">
                     <h2>Recent Orders</h2>
@@ -233,58 +228,64 @@ function AdminDashboard() {
                             <thead>
                                 <tr>
                                     <th>Order ID</th>
-                                    <th>Customer</th>
-                                    <th>Items</th>
-                                    <th>Total</th>
+                                    <th>Customer Info</th>
+                                    <th>Items Ordered</th>
+                                    <th>Total Amount</th>
                                     <th>Status</th>
-                                    <th>Action</th>
+                                    <th>Update Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {allOrders.length === 0 ? <p>No orders yet.</p> : 
+                                {allOrders.length === 0 ? (
+                                    <tr><td colSpan="6" style={{textAlign:"center", padding:"20px"}}>No orders found.</td></tr>
+                                ) : (
                                     allOrders.map((order) => (
-                                    <tr key={order.orderId}>
-                                        <td style={{fontSize: "0.8rem"}}>{order.orderId}</td>
-                                        <td>
-                                            {order.fullName}<br/>
-                                            <span style={{fontSize: "0.8rem", color:"gray"}}>{order.phone}</span>
-                                        </td>
-                                        <td>
-                                            {/* Loop through items inside the order */}
-                                            {order.items && order.items.map((item, i) => (
-                                                <div key={i}>
-                                                    • {item.name} (x{item.quantity})
-                                                </div>
-                                            ))}
-                                        </td>
-                                        <td>RM {order.totalAmount}</td>
-                                        <td>
-                                            <span className={`status-${order.status ? order.status.toLowerCase() : 'pending'}`}>
-                                                {order.status || "Pending"}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            {/* Dropdown to change status */}
-                                            <select 
-                                                className="status-select"
-                                                defaultValue={order.status || "Pending"}
-                                                onChange={(e) => updateOrderStatus(order.orderId, e.target.value)}
-                                            >
-                                                <option value="Pending">Pending</option>
-                                                <option value="Shipped">Shipped</option>
-                                                <option value="Delivered">Delivered</option>
-                                                <option value="Cancelled">Cancelled</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                ))}
+                                        <tr key={order.orderId}>
+                                            <td style={{fontSize: "0.85rem", fontWeight:"bold"}}>
+                                                #{order.orderId ? order.orderId.slice(-6) : "???"}
+                                            </td>
+                                            <td>
+                                                <div style={{fontWeight:"600"}}>{order.fullName}</div>
+                                                <div style={{fontSize:"0.8rem", color:"#666"}}>{order.phone}</div>
+                                                <div style={{fontSize:"0.8rem", color:"#666"}}>{order.userEmail}</div>
+                                            </td>
+                                            <td>
+                                                {order.items && order.items.map((item, i) => (
+                                                    <div key={i} style={{fontSize:"0.9rem", marginBottom:"4px"}}>
+                                                        • {item.name} <span style={{color:"#888"}}>x{item.quantity}</span>
+                                                    </div>
+                                                ))}
+                                            </td>
+                                            <td style={{fontWeight:"bold", color:"#2c3e50"}}>
+                                                RM {order.totalAmount}
+                                            </td>
+                                            <td>
+                                                <span className={`status-pill ${order.status ? order.status.toLowerCase() : 'pending'}`}>
+                                                    {order.status || "Pending"}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <select
+                                                    className="status-selector"
+                                                    value={order.status || "Pending"}
+                                                    onChange={(e) => updateOrderStatus(order.orderId, e.target.value)}
+                                                >
+                                                    <option value="Pending">Pending</option>
+                                                    <option value="Shipped">Shipped</option>
+                                                    <option value="Delivered">Delivered</option>
+                                                    <option value="Cancelled">Cancelled</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
                             </tbody>
                         </table>
                     </div>
                 </div>
             )}
-
         </div>
-    )
+    );
 }
+
 export default AdminDashboard;
