@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 public class InventoryManager {
 
     // Feature: Add Product to Firebase
-    public String addProduct(String name, String category, String subCategory, double price, int stock, String image) {
+    public String addProduct(String name, String category, String subCategory, String description, double price, int stock, String image) {
         // 1. Get the connection to the database
         Firestore db = FirestoreClient.getFirestore();
 
@@ -28,16 +28,17 @@ public class InventoryManager {
         product.put("name", name);
         product.put("category", category);
         product.put("subCategory", subCategory);
+        product.put("description", description);
         product.put("price", price);
         product.put("stock", stock);
         product.put("image", image);
         product.put("created_at", System.currentTimeMillis());
 
     try {
-        // 3. Save it to a collection called "products"
-        // The system will generate a random unique ID for the product
-            ApiFuture<DocumentReference> addedDocRef = db.collection("products").add(product);
-            return String.valueOf(System.currentTimeMillis());
+
+        DocumentReference addedDocRef = db.collection("products").add(product).get();
+        return addedDocRef.getId();
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;

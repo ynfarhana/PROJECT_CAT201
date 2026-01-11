@@ -9,7 +9,13 @@ function AdminDashboard() {
     
     // State for Form
     const [productDetails, setProductDetails] = useState({
-        name: "", category: "Women", subCategory: "Top", price: "", stock: "" , image: ""
+        name: "", 
+        category: "Women", 
+        subCategory: "Top", 
+        price: "", 
+        stock: "" , 
+        image: "", 
+        description: ""
     });
     
     // State for the List of Products
@@ -171,6 +177,16 @@ function AdminDashboard() {
                             <label>Stock</label>
                             <input value={productDetails.stock} onChange={changeHandler} type="number" name="stock" placeholder="Qty" />
                         </div>
+                    </div>
+                    <div className="input-group">
+                        <p>Product Description</p>
+                        <textarea 
+                            value={productDetails.description} 
+                            onChange={changeHandler} 
+                            name="description" 
+                            rows="4" 
+                            placeholder="Type description here..."
+                        ></textarea>
                     </div>
                     <button onClick={addProduct} className="add-btn">ADD PRODUCT</button>
                 </div>
