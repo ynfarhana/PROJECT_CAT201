@@ -7,8 +7,7 @@ function Product () {
     const { all_product } = useContext(ShopContext); // <--- 2. Get Live Data
     const { productId } = useParams();
     
-    // 3. Find the product in the live database list
-    // (We accept both String ID "123" and Number ID 123)
+  
     const product = all_product.find((e) => e.id == productId);
     if(!product) {
         return <div style={{padding: "100px"}}>Loading Product... (or Item Not Found)</div>;

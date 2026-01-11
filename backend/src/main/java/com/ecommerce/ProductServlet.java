@@ -49,6 +49,7 @@ public class ProductServlet extends HttpServlet {
         String priceStr = extractValue(jsonReceived, "price"); // Comes as string
         String stockStr = extractValue(jsonReceived, "stock"); // Comes as string
         String image = extractValue(jsonReceived, "image");
+        String description = extractValue(jsonReceived, "description");
 
         // Convert numbers
         double price = 0.0;
@@ -62,7 +63,7 @@ public class ProductServlet extends HttpServlet {
 
         // SAVE to Firebase
         InventoryManager inv = new InventoryManager();
-        String timestamp = inv.addProduct(name, category, subCategory, price, stock, image);
+        String timestamp = inv.addProduct(name, category, subCategory, description, price, stock, image);
 
         // REPLY to React
         if (timestamp != null) {
@@ -124,11 +125,12 @@ public class ProductServlet extends HttpServlet {
             Map<String, Object> p = products.get(i);
             
             json.append("{")
-                .append("\"id\":\"").append(p.get("id")).append("\",") // <--- ADDED THIS (Needed for clicking items)
+                .append("\"id\":\"").append(p.get("id")).append("\",") //  (Needed for clicking items)
                 .append("\"name\":\"").append(p.get("name")).append("\",")
                 .append("\"category\":\"").append(p.get("category")).append("\",")
-                .append("\"subCategory\":\"").append(p.get("subCategory")).append("\",") // <--- ADDED THIS (For filtering)
-                .append("\"image\":\"").append(p.get("image")).append("\",") // <--- ADDED THIS (The missing image!)
+                .append("\"subCategory\":\"").append(p.get("subCategory")).append("\",") //  (For filtering)
+                .append("\"description\":\"").append(p.get("description") == null ? "" : p.get("description")).append("\",")
+                .append("\"image\":\"").append(p.get("image")).append("\",") 
                 .append("\"price\":").append(p.get("price")).append(",")
                 .append("\"stock\":").append(p.get("stock"))
                 .append("}");
