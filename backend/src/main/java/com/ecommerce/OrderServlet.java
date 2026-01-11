@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/api/admin/orders")
+@WebServlet("/orders")
 public class OrderServlet extends HttpServlet {
     private OrderService orderService = new OrderService();
 

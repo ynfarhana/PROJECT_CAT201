@@ -5,7 +5,7 @@ import './Product.css'
 
 function Product () {
     const {productId} = useParams();
-    const { all_product } = useContext(ShopContext); 
+    const { all_product, addToCart } = useContext(ShopContext); 
 
     const product = all_product.find((e) => e.id === productId);
     const [isAdding, setIsAdding] = useState(false);
@@ -14,25 +14,13 @@ function Product () {
         return <div style={{padding: "100px"}}>Loading Product... (or Item Not Found)</div>;
     }
 
-    const addToCart = async () => {
+    const handleAdd = async () => {
         setIsAdding(true);
-        try {
-            const response = await fetch(`/api/cart?action=add&id=${product.id}&name=${encodeURIComponent(product.name)}&price=${product.price}`, {
-                method: 'POST',
-            });
-
-            if (response.ok) {
-                alert("Added to your thrift bag!");
-            } else {
-                alert("Failed to add item to cart.");
-            }
-        } catch (error) {
-            console.error("Error adding to cart:", error);
-            alert("Failed to add item to cart.");
-        }
+        const ok = await addToCart(product);
+        if (ok) alert("Added to your thrift bag!");
+        else alert("Failed to add item to cart.");
         setIsAdding(false);
     };
-
 
     return (
         <div className="product-page">
@@ -62,7 +50,7 @@ function Product () {
 
                     <button 
                         className="add-to-cart-btn" 
-                        onClick={addToCart}
+                        onClick={handleAdd}
                         disabled={isAdding}
                     >
                         {isAdding ? "ADDING..." : "ADD TO CART"}

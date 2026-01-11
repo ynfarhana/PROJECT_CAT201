@@ -8,6 +8,7 @@ const ShopContextProvider = (props) => {
     
     // This state will hold ALL your products from the database
     const [all_product, setAll_product] = useState([]);
+    const [cartCount, setCartCount] = useState(0);
 
     // When the website loads, go get the data from Java!
     useEffect(() => {
@@ -20,6 +21,38 @@ const ShopContextProvider = (props) => {
         .catch((error) => console.error("Failed to load products:", error));
     }, []);
 
+    const refreshCartCount = async () => {
+        try {
+            const res = await fetch('/api/cart'); // GET returns cart array
+            if (!res.ok) { setCartCount(0); return; }
+            const cart = await res.json();
+            const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            setCartCount(count);
+        } catch (e) {
+            setCartCount(0);
+        }
+    };
+
+    useEffect(() => {
+        refreshCartCount();
+    }, []);
+
+    const addToCart = async (product) => {
+        try {
+            const res = await fetch(`/api/cart?action=add&id=${product.id}&name=${encodeURIComponent(product.name)}&price=${product.price}`, {
+                method: 'POST'
+            });
+            if (res.ok) {
+                // update local count
+                await refreshCartCount();
+                return true;
+            }
+            return false;
+        } catch (e) {
+            return false;
+        }
+    };
+
     // Helper: Function to filter products by category (Men, Women, Kids)
     // This matches the logic Ain needs for her pages
     const getProductsByCategory = (category) => {
@@ -27,7 +60,13 @@ const ShopContextProvider = (props) => {
     };
 
     // Pack everything into a box to send to other pages
-    const contextValue = { all_product, getProductsByCategory };
+    const contextValue = {
+        all_product,
+        getProductsByCategory,
+        cartCount,
+        refreshCartCount,
+        addToCart
+    };
 
     return (
         <ShopContext.Provider value={contextValue}>

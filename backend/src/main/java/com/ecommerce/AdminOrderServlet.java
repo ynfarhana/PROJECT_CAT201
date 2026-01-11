@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet("/api/admin/orders")
+@WebServlet("/admin/orders")
 public class AdminOrderServlet extends HttpServlet {
 
     private Gson gson = new Gson();

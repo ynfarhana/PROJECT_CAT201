@@ -25,14 +25,42 @@ const PaymentPage = () => {
     const shipping = 5.00;
     const total = subtotal + shipping + (isComboAdded ? comboPrice : 0);
 
-    const handlePlaceOrder = () => {
-        console.log("Order Placed via:", paymentMethod, "Message:", orderMessage);
-        setShowSuccess(true);
-        localStorage.removeItem('shippingInfo');
-        
-        setTimeout(() => {
-            navigate('/'); 
-        }, 5000); 
+    const handlePlaceOrder = async () => {
+    console.log("Order Placed via:", paymentMethod, "Message:", orderMessage);
+
+    // Build form body so request.getParameter() works on the Java servlet
+    const params = new URLSearchParams();
+    params.append('action', 'checkout');
+    params.append('email', shippingInfo.email || '');
+    params.append('fullName', shippingInfo.fullName || '');
+    params.append('phone', shippingInfo.phone || '');
+    params.append('address', shippingInfo.address || '');
+    params.append('message', orderMessage);
+    // include combo/total info if needed
+
+        try {
+            const res = await fetch('/api/cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: params.toString()
+            });
+            if (!res.ok) {
+                const text = await res.text();
+                console.error('Checkout failed:', text);
+                alert('Checkout failed');
+                return;
+            }
+
+            setShowSuccess(true);
+            localStorage.removeItem('shippingInfo');
+
+            setTimeout(() => {
+                navigate('/');
+            }, 5000);
+        } catch (err) {
+            console.error('Checkout error:', err);
+            alert('Checkout connection failed');
+        }
     };
 
     return (

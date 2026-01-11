@@ -120,7 +120,7 @@ function AdminDashboard() {
         }
     };
 
-    return (
+   return (
         <div className="admin-dashboard">
             <div className="admin-header">
                 <h1>👑 Admin Dashboard</h1>
@@ -145,6 +145,7 @@ function AdminDashboard() {
                 </button>
             </div>
 
+            {/* --- TAB 1: INVENTORY (Your Original Code) --- */}
             {activeTab === 'inventory' && (
                 <div className="admin-content">
                     <div className="add-product-box">
@@ -220,67 +221,71 @@ function AdminDashboard() {
                 </div>
             )}
 
+            {/* --- TAB 2: ORDERS (Ain's Design + Your Data) --- */}
             {activeTab === 'orders' && (
-                <div className="orders-box">
-                    <h2>Recent Orders</h2>
-                    <div className="table-container">
-                        <table style={{width: "100%"}}>
-                            <thead>
-                                <tr>
-                                    <th>Order ID</th>
-                                    <th>Customer Info</th>
-                                    <th>Items Ordered</th>
-                                    <th>Total Amount</th>
-                                    <th>Status</th>
-                                    <th>Update Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {allOrders.length === 0 ? (
-                                    <tr><td colSpan="6" style={{textAlign:"center", padding:"20px"}}>No orders found.</td></tr>
-                                ) : (
-                                    allOrders.map((order) => (
-                                        <tr key={order.orderId}>
-                                            <td style={{fontSize: "0.85rem", fontWeight:"bold"}}>
-                                                #{order.orderId ? order.orderId.slice(-6) : "???"}
-                                            </td>
-                                            <td>
-                                                <div style={{fontWeight:"600"}}>{order.fullName}</div>
-                                                <div style={{fontSize:"0.8rem", color:"#666"}}>{order.phone}</div>
-                                                <div style={{fontSize:"0.8rem", color:"#666"}}>{order.userEmail}</div>
-                                            </td>
-                                            <td>
-                                                {order.items && order.items.map((item, i) => (
-                                                    <div key={i} style={{fontSize:"0.9rem", marginBottom:"4px"}}>
-                                                        • {item.name} <span style={{color:"#888"}}>x{item.quantity}</span>
-                                                    </div>
-                                                ))}
-                                            </td>
-                                            <td style={{fontWeight:"bold", color:"#2c3e50"}}>
-                                                RM {order.totalAmount}
-                                            </td>
-                                            <td>
-                                                <span className={`status-pill ${order.status ? order.status.toLowerCase() : 'pending'}`}>
-                                                    {order.status || "Pending"}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <select
-                                                    className="status-selector"
-                                                    value={order.status || "Pending"}
-                                                    onChange={(e) => updateOrderStatus(order.orderId, e.target.value)}
-                                                >
-                                                    <option value="Pending">Pending</option>
-                                                    <option value="Shipped">Shipped</option>
-                                                    <option value="Delivered">Delivered</option>
-                                                    <option value="Cancelled">Cancelled</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
+                <div className="orders-container fade-in">
+                    <div className="orders-box">
+                        <h2>📦 Incoming Orders</h2>
+                        <div className="table-container full-width">
+                            <table style={{width: "100%"}}>
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Items Ordered</th> {/* Added this back! */}
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {allOrders.length === 0 ? (
+                                        <tr><td colSpan="6" style={{textAlign:"center", padding:"20px"}}>No orders found.</td></tr>
+                                    ) : (
+                                        allOrders.map((order, i) => (
+                                            <tr key={i}>
+                                                <td style={{fontWeight: "bold"}}>
+                                                    {/* Changed from order.id to order.orderId to match your Java */}
+                                                    #{order.orderId ? order.orderId.slice(-6) : "???"} 
+                                                </td>
+                                                <td>
+                                                    <div style={{fontWeight:"600"}}>{order.fullName}</div>
+                                                    <div style={{fontSize:"0.8rem", color:"#666"}}>{order.phone}</div>
+                                                </td>
+                                                <td>
+                                                    {/* Added the Item Loop back so you can see what they bought */}
+                                                    {order.items && order.items.map((item, idx) => (
+                                                        <div key={idx} style={{fontSize:"0.85rem"}}>
+                                                            • {item.name} x{item.quantity}
+                                                        </div>
+                                                    ))}
+                                                </td>
+                                                <td style={{fontWeight:"bold", color:"#2c3e50"}}>
+                                                    RM {order.totalAmount}
+                                                </td>
+                                                <td>
+                                                    <span className={`status-pill ${order.status ? order.status.toLowerCase() : 'pending'}`}>
+                                                        {order.status || 'Received'}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <select 
+                                                        className="status-selector"
+                                                        value={order.status || "Pending"}
+                                                        onChange={(e) => updateOrderStatus(order.orderId, e.target.value)}
+                                                    >
+                                                        <option value="Pending">Pending</option>
+                                                        <option value="Shipped">Shipped</option>
+                                                        <option value="Delivered">Delivered</option>
+                                                        <option value="Cancelled">Cancelled</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             )}

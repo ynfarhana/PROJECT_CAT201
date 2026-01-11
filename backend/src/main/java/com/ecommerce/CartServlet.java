@@ -1,7 +1,7 @@
 package com.ecommerce;
-//import com.ecommerce.Order;
-//import com.ecommerce.OrderService;
-//import com.ecommerce.CartItem;
+import com.ecommerce.Order;
+import com.ecommerce.OrderService;
+import com.ecommerce.CartItem;
 
 import com.google.gson.Gson;
 import javax.servlet.ServletException;
@@ -10,7 +10,7 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-//import java.util.stream.Collectors;
+import java.util.stream.Collectors;
 
 @WebServlet("/cart")
 public class CartServlet extends HttpServlet {
@@ -145,7 +145,8 @@ public class CartServlet extends HttpServlet {
     String fullName = request.getParameter("fullName");
     String phone = request.getParameter("phone");
     String shippingAddress = request.getParameter("address");
-    
+    String message = request.getParameter("message");
+
     if (email == null || fullName == null || shippingAddress == null) {
         throw new Exception("Missing required shipping details.");
     }
@@ -157,6 +158,9 @@ public class CartServlet extends HttpServlet {
     double total = cart.stream().mapToDouble(CartItem::getSubtotal).sum();
     com.ecommerce.Order newOrder = new com.ecommerce.Order(orderId, email, fullName, phone, shippingAddress, cart, total);
 
+    if (message != null && !message.isEmpty()) {
+    newOrder.setMessage(message);
+}
     // Persistence: Save to Firebase
     try {
         OrderService orderService = new OrderService();

@@ -1,13 +1,14 @@
-import React, {useState} from 'react'; //6.9k (gzipped: 2.7k)
+import React, { useState, useContext } from 'react'; //6.9k (gzipped: 2.7k)
 import { Link } from 'react-router-dom';
 import './Navbar.css';
 import { BsShop } from "react-icons/bs";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { RiMenu3Line, RiCloseLine } from "react-icons/ri";
+import { ShopContext } from '../../Context/ShopContext';
 
 
 function Navbar() {
-
+        const { cartCount } = useContext(ShopContext);
         const[menu,setMenu] = useState("shop");
         const[toggleMenu, setToggleMenu] = useState(false);
 
@@ -36,7 +37,7 @@ function Navbar() {
                 <Link to='/login' className="desktop-login"><button>Login</button></Link>
                 <div className="cart-wrapper">
                     <Link to = '/cart'><HiOutlineShoppingBag size={35} color="#372414"/></Link>
-                    <div className="nav-cart-count">0</div>
+                    <div className="nav-cart-count">{cartCount}</div>
                 </div>    
             </div>
         </div>

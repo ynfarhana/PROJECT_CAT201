@@ -26,11 +26,15 @@ public class Order {
         this.shippingAddress = shippingAddress;
         this.items = items;
         this.totalAmount = totalAmount;
-        this.message = message;
+        this.message = "";
         this.status = "Received";
         this.orderDate = new Date();
     }
 
+    public void setMessage(String message) {
+    this.message = message;
+    }
+    
     // Add these inside your Order class in Order.java
     public String getOrderId() {
         return orderId;
