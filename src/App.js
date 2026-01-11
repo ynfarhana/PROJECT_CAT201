@@ -1,37 +1,38 @@
 import './App.css';
 import Navbar from './Component/Navbar/Navbar';
-import {BrowserRouter,Routes,Route} from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Shop from './Pages/Shop';
 import ShopCategory from './Pages/ShopCategory';
 import Product from './Pages/Product';
 import Cart from './Pages/Cart'; 
+import ShippingAddress from './Pages/Checkout/ShippingAddress';
+import PaymentPage from './Pages/Checkout/PaymentPage';
 import LoginSignup from './Pages/LoginSignup';
 import AdminDashboard from './Pages/AdminDashboard';
 
 function App() {
   return (
-    //<div >
-      <BrowserRouter>
+    <BrowserRouter>
       <Navbar/>
       <Routes>
-        <Route path ='/' element={<Shop/>}/> {/* main page*/}
-
-        <Route path ='/mens' element={<ShopCategory category="Men"/>}/>
-        <Route path ='/womens' element={<ShopCategory category="Women" />}/>
-        <Route path="/kids" element={<ShopCategory category="kids" />} />
-
+        <Route path='/' element={<Shop/>}/> 
         
-        <Route path = '/product/:productId' element={<Product/>}/> {/* going to product details*/}
-
-        <Route path = '/cart' element ={<Cart/>}/>
-        <Route path = '/login' element ={<LoginSignup/>}/>
+        <Route path='/mens' element={<ShopCategory category="Men"/>}/>
+        <Route path='/womens' element={<ShopCategory category="Women" />}/>
+        <Route path='/kids' element={<ShopCategory category="kids" />} />
+        
+        <Route path='/product/:productId' element={<Product/>}/> 
+        
+        <Route path='/cart' element={<Cart/>}/>
         <Route path='/login' element={<LoginSignup/>}/>
         <Route path='/admin' element={<AdminDashboard/>}/>
-        
+
+        {/* Checkout Flow */}
+        <Route path="/checkout/shipping" element={<ShippingAddress />} />
+        <Route path="/checkout/payment" element={<PaymentPage />} />
       </Routes>
-      </BrowserRouter>
-    //</div>
+    </BrowserRouter>
   );
 }
 

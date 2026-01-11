@@ -33,11 +33,15 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>10.0.18</version> <configuration>
-                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                <version>10.0.18</version> 
+                <configuration>
                     <webApp>
                         <contextPath>/api</contextPath>
+                        <tempDirectory>${java.io.tmpdir}/jetty-backend</tempDirectory>
                     </webApp>
+                    <httpConnector>
+                        <port>8081</port>
+                    </httpConnector>
                 </configuration>
             </plugin>
         </plugins>

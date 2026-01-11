@@ -1,18 +1,37 @@
-import React, { useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import { ShopContext } from '../Context/ShopContext'; // <--- 1. Import Context
-import './Product.css';
+import React, {useState} from 'react'
+import { useParams } from 'react-router-dom'
+import {products} from '../Component/Assets/all_product.js'
+//import { ShopContext } from '../Context/ShopContext';
+import './Product.css'
 
 function Product () {
-    const { all_product } = useContext(ShopContext); // <--- 2. Get Live Data
-    const { productId } = useParams();
-    
-    // 3. Find the product in the live database list
-    // (We accept both String ID "123" and Number ID 123)
-    const product = all_product.find((e) => e.id == productId);
+    const {productId} = useParams();
+    const product = products.find((e) => e.id === productId);
+    const [isAdding] = useState(false);
+    //const { all_product } = useContext(ShopContext); 
+
     if(!product) {
         return <div style={{padding: "100px"}}>Loading Product... (or Item Not Found)</div>;
     }
+
+    const addToCart = async () => {
+        try {
+            // Use a relative path so the proxy in package.json forwards it to :8080
+            const response = await fetch(`/api/cart?action=add&id=${product.id}&name=${encodeURIComponent(product.name)}&price=${product.price}`, {
+                method: 'POST',
+            });
+
+            if (response.ok) {
+                alert("Added to your thrift bag!");
+            } else {
+                alert("Failed to add item to cart.");
+            }
+        } catch (error) {
+            console.error("Error adding to cart:", error);
+            alert("Failed to add item to cart.");
+        }
+    };
+
 
     return (
         <div className="product-page">
@@ -43,7 +62,14 @@ function Product () {
                         </p>
                     </div>
 
-                    <button className="add-to-cart-btn">Add to Cart</button>
+                    <button 
+                        className="add-to-cart-btn" 
+                        onClick={addToCart}
+                        disabled={isAdding}
+                    >
+                        {isAdding ? "ADDING..." : "ADD TO CART"}
+                    </button>
+
                 </div>
             </div>
         </div>
